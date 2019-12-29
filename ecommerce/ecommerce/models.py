@@ -23,14 +23,14 @@ class Product(models.Model):
     description = models.TextField(default='')
     quantity_per_unit = models.IntegerField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    composition_id = models.ForeignKey(Composition)
-    size_id = models.ForeignKey(Size)
-    color_id = models.ForeignKey(Color)
-    brand_id = models.ForeignKey(Brand)
+    composition_id = models.IntegerField()
+    size_id = models.IntegerField()
+    color_id = models.IntegerField()
+    brand_id = models.IntegerField()
 
 
 class Review(models.Model):
     rating = models.IntegerField()
-    product = models.ForeignKey(Product)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     comment = models.TextField(default='')
