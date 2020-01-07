@@ -6,7 +6,12 @@ from . import models
 
 class ProductListView(ListView):
     model = models.Product
-    template_name = "ecommerce/product_list.html"
+    template_name = "ecommerce/shop_product_col_3.html"
+
+
+class SingleProductView(DetailView):
+    model = models.Product
+    template_name = "ecommerce/shop_single_product.html"
 
 
 # class ProductView(TemplateView):
