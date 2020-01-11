@@ -1,7 +1,9 @@
 from django.views.generic import View, TemplateView, ListView, DetailView
+from django.views.generic.edit import FormMixin
 from django.http import HttpResponse
 
 from . import models
+from . import forms
 
 
 class ProductListView(ListView):
@@ -9,16 +11,8 @@ class ProductListView(ListView):
     template_name = "ecommerce/shop_product_col_3.html"
 
 
-class SingleProductView(DetailView):
+class SingleProductView(FormMixin, DetailView):
     model = models.Product
     template_name = "ecommerce/shop_single_product.html"
+    form_class = forms.TestimonialForm
 
-
-# class ProductView(TemplateView):
-#     template_name = "ecommerce/product_list.html"
-
-# class ProductView(View):
-#     template_name = 'product.html'
-#
-#     def get(self, request):
-#         return HttpResponse('hello World')
