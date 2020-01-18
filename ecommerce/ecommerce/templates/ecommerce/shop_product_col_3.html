@@ -412,7 +412,7 @@
                   <div class="shop-item-image"><img src="{% static 'images/shop/product-7.jpg' %}" alt="Accessories Pack"/>
                     <div class="shop-item-detail"><a class="btn btn-round btn-b"><span class="icon-basket">Add To Cart</span></a></div>
                   </div>
-                  <h4 class="shop-item-title font-alt"><a href="{% url 'detail' product.pk %}">{{ product.product_name }}</a></h4>{{ product.price }} $
+                  <h4 class="shop-item-title font-alt"><a href="{% url 'product-detail' product.pk %}">{{ product.product_name }}</a></h4>{{ product.price }} $
                 </div>
               </div>
               </div>

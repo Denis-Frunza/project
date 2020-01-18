@@ -1,5 +1,5 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="en-US" dir="ltr">
   <head>
     <meta charset="utf-8">
@@ -72,7 +72,6 @@
                   <li><a href="index_shop.html">Shop</a></li>
                 </ul>
               </li>
-                  </li>
                   <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Contact</a>
                     <ul class="dropdown-menu">
                       <li><a href="contact1.html">Contact 1</a></li>
@@ -82,12 +81,6 @@
                   <li><a href="login_register.html">Login / Register</a></li>
                   <li><a href="404.html">Page 404</a></li>
                 </ul>
-              </li>
-            </ul>
-            </li>
-            </ul>
-            </li>
-            </ul>
               <!--li.dropdown.navbar-cart-->
               <!--    a.dropdown-toggle(href='#', data-toggle='dropdown')-->
               <!--        span.icon-basket-->
@@ -135,29 +128,29 @@
               <!--                    |-->
               <!--                    button.search-btn(type='submit')-->
               <!--                        i.fa.fa-search-->
-            </ul>
           </div>
         </div>
       </nav>
       <div class="main">
-        <section class="module">
+ <section class="module">
+<section class="module">
           <div class="container">
             <div class="row">
-              <div class="col-sm-6 mb-sm-40"><a class="gallery" href="{% static 'images/shop/product-7.jpg' %}"><img src="{% static 'images/shop/product-7.jpg' %}" alt="Single Product Image"/></a>
+              <div class="col-sm-6 mb-sm-40"><a class="gallery" href="assets/images/shop/product-7.jpg"><img src="assets/images/shop/product-7.jpg" alt="Single Product Image"/></a>
                 <ul class="product-gallery">
-                  <li><a class="gallery" href="{% static 'images/shop/product-8.jpg' %}"></a><img src="{% static 'images/shop/product-8.jpg' %}" alt="Single Product"/></li>
-                  <li><a class="gallery" href="{% static 'images/shop/product-9.jpg' %}"></a><img src="{% static 'images/shop/product-9.jpg' %}" alt="Single Product"/></li>
-                  <li><a class="gallery" href="{% static 'images/shop/product-10.jpg' %}"></a><img src="{% static 'images/shop/product-10.jpg' %}" alt="Single Product"/></li>
+                  <li><a class="gallery" href="assets/images/shop/product-8.jpg"></a><img src="assets/images/shop/product-8.jpg" alt="Single Product"/></li>
+                  <li><a class="gallery" href="assets/images/shop/product-9.jpg"></a><img src="assets/images/shop/product-9.jpg" alt="Single Product"/></li>
+                  <li><a class="gallery" href="assets/images/shop/product-10.jpg"></a><img src="assets/images/shop/product-10.jpg" alt="Single Product"/></li>
                 </ul>
               </div>
               <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
-                    <h1 class="product-title font-alt">{{ product.product_name }}</h1>
+                    <h1 class="product-title font-alt">Accessories Pack</h1>
                   </div>
                 </div>
                 <div class="row mb-20">
-                  <div class="col-sm-12"><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star-off"></i></span><a class="open-tab section-scroll" href="#reviews">-2customer reviews</a>
+                  <div class="col-sm-12"><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star-off"></i></span><a class="open-tab section-scroll" href="#reviews">-{{ reviews_counter }}customer reviews</a>
                   </div>
                 </div>
                 <div class="row mb-20">
@@ -168,7 +161,7 @@
                 <div class="row mb-20">
                   <div class="col-sm-12">
                     <div class="description">
-                      <p>{{ product.description }}</p>
+                      <p>The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.</p>
                     </div>
                   </div>
                 </div>
@@ -191,10 +184,14 @@
                 <ul class="nav nav-tabs font-alt" role="tablist">
                   <li class="active"><a href="#description" data-toggle="tab"><span class="icon-tools-2"></span>Description</a></li>
                   <li><a href="#data-sheet" data-toggle="tab"><span class="icon-tools-2"></span>Data sheet</a></li>
-                  <li><a href="#reviews" data-toggle="tab"><span class="icon-tools-2"></span>Reviews (2)</a></li>
+                  <li><a href="#reviews" data-toggle="tab"><span class="icon-tools-2"></span>Reviews ({{ reviews_counter }})</a></li>
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="description">
+                    <p>{{ product.description }}</p>
+                    <!--<p>Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words. If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages.</p>
+                    <p>The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.</p>
+                    -->
                   </div>
                   <div class="tab-pane" id="data-sheet">
                     <table class="table table-striped ds-table table-responsive">
@@ -204,7 +201,7 @@
                           <th>Info</th>
                         </tr>
                         <tr>
-                          <td>Composition</td>
+                          <td>Compositions</td>
                           <td>{{ product.composition_id.info }}</td>
                         </tr>
                         <tr>
@@ -217,14 +214,14 @@
                         </tr>
                         <tr>
                           <td>Brand</td>
-                          <td>{{ product.brand_id.brand_name}}</td>
+                          <td>{{ product.brand_id.brand_name }}</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                   <div class="tab-pane" id="reviews">
                     <div class="comments reviews">
-                      <div class="comment clearfix">
+                      <!-- <div class="comment clearfix">
                         <div class="comment-avatar"><img src="" alt="avatar"/></div>
                         <div class="comment-content clearfix">
                           <div class="comment-author font-alt"><a href="#">John Doe</a></div>
@@ -234,17 +231,19 @@
                           <div class="comment-meta font-alt">Today, 14:55 -<span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star-off"></i></span>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                       <div class="comment clearfix">
+                        {% for review in reviews %}
                         <div class="comment-avatar"><img src="" alt="avatar"/></div>
                         <div class="comment-content clearfix">
-                          <div class="comment-author font-alt"><a href="#">Mark Stone</a></div>
+                          <div class="comment-author font-alt"><a href="#">{{ review.customer_name }}</a></div>
                           <div class="comment-body">
-                            <p>Europe uses the same vocabulary. The European languages are members of the same family. Their separate existence is a myth.</p>
+                            <p>{{ review.comment }}</p>
                           </div>
-                          <div class="comment-meta font-alt">Today, 14:59 -<span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star-off"></i></span><span><i class="fa fa-star star-off"></i></span>
+                          <div class="comment-meta font-alt">{{ review.created_at }} - {{review.rating }}<span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star-off"></i></span><span><i class="fa fa-star star-off"></i></span>
                           </div>
                         </div>
+                        {% endfor %}
                       </div>
                     </div>
                     <div class="comment-form mt-30">
@@ -254,16 +253,16 @@
                         <div class="row">
                           <div class="col-sm-4">
                             <div class="form-group">
-                              <label class="sr-only" for="name">Name</label>
+                              <!-- <label class="sr-only" for="name">Name</label>
+                              <input class="form-control" id="name" type="text" name="name" placeholder="Name"/> -->
                               {{ form.name }}
-                              <!--<input class="form-control" id="name" type="text" name="name" placeholder="Name"/> -->
                             </div>
                           </div>
                           <div class="col-sm-4">
                             <div class="form-group">
-                              <label class="sr-only" for="email">Name</label>
                               {{ form.email }}
-                             <!-- <input class="form-control" id="email" type="text" name="email" placeholder="E-mail"/> -->
+                              <!-- <label class="sr-only" for="email">Name</label>
+                              <input class="form-control" id="email" type="text" name="email" placeholder="E-mail"/> -->
                             </div>
                           </div>
                           <div class="col-sm-4">
@@ -332,7 +331,7 @@
               </div>
               <div class="col-sm-6 col-md-3 col-lg-3">
                 <div class="shop-item">
-                  <div class="shop-item-image"><img "test"alt="Cold Garb"/>
+                  <div class="shop-item-image"><img src="" alt="Cold Garb"/>
                     <div class="shop-item-detail"><a class="btn btn-round btn-b"><span class="icon-basket">Add To Cart</span></a></div>
                   </div>
                   <h4 class="shop-item-title font-alt"><a href="#">Cold Garb</a></h4>£14.00

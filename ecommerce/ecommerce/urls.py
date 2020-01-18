@@ -22,6 +22,6 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^product/$', views.ProductListView.as_view(), name='list'),
-    url(r'^(?P<pk>\d+)/$', views.SingleProductView.as_view(), name='detail')
+    url(r'^(?P<pk>\d+)/$', views.ProductDetail.as_view(), name='product-detail'),
 
 ]

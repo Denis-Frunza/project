@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 
@@ -23,14 +25,16 @@ class Product(models.Model):
     description = models.TextField(default='')
     quantity_per_unit = models.IntegerField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    composition_id = models.IntegerField()
-    size_id = models.IntegerField()
-    color_id = models.IntegerField()
-    brand_id = models.IntegerField()
+    composition_id = models.ForeignKey(Composition, on_delete=models.CASCADE)
+    size_id = models.ForeignKey(Size, on_delete=models.CASCADE)
+    color_id = models.ForeignKey(Color, on_delete=models.CASCADE)
+    brand_id = models.ForeignKey(Brand, on_delete=models.CASCADE)
 
 
 class Review(models.Model):
+    customer_name = models.CharField(max_length=255)
+    email = models.EmailField()
     rating = models.IntegerField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
     comment = models.TextField(default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
