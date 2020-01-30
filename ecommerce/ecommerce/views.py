@@ -1,4 +1,4 @@
-from django.views.generic import View,ListView, DetailView, FormView
+from django.views.generic import View, ListView, DetailView, FormView
 from django.views.generic.detail import SingleObjectMixin
 from django.urls import reverse_lazy,reverse
 
@@ -6,6 +6,9 @@ from datetime import datetime
 
 from . import models
 from . import forms
+
+# TODO: djangorestframework!!!
+# TODO: nginx + uwsgi
 
 
 class ProductListView(ListView):
@@ -16,7 +19,6 @@ class ProductListView(ListView):
 class SingleProductView(DetailView):
     model = models.Product
     template_name = 'ecommerce/shop_single_product.html'
-    #template_name = 'ecommerce/test.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,7 +30,6 @@ class SingleProductView(DetailView):
 
 class Testimonial(SingleObjectMixin, FormView):
     template_name = 'ecommerce/shop_single_product.html'
-    #template_name = 'ecommerce/test.html'
     form_class = forms.TestimonialForm
     model = models.Product
 
@@ -65,10 +66,12 @@ class Testimonial(SingleObjectMixin, FormView):
 class ProductDetail(View):
 
     def get(self, request, *args, **kwargs):
+        print('____________HERE______________-', request.GET)
         view = SingleProductView.as_view()
         return view(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        print('____________HERE______________-', request.POST)
         view = Testimonial.as_view()
         return view(request, *args, **kwargs)
 

@@ -15,13 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url
+from django.conf.urls import url, include
 
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^product/$', views.ProductListView.as_view(), name='list'),
-    url(r'^(?P<pk>\d+)/$', views.ProductDetail.as_view(), name='product-detail'),
+    url('products/', views.ProductListView.as_view(), name='list'),
+    url('product/<int:pk>', views.ProductDetail.as_view(), name='product-detail'),
+    url('registration/', include('registration.urls')),
 
 ]

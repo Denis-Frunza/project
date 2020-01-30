@@ -11,7 +11,3 @@ class TestimonialForm(forms.Form):
     rating = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), choices=RATING_CHOICES)
     comment = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control',
                                                            'placeholder': 'REVIEW'}))
-    # name = forms.CharField()
-    # email = forms.EmailField()
-    # rating = forms.ChoiceField()
-    # comment = forms.CharField()
