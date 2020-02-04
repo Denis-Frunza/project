@@ -66,12 +66,10 @@ class Testimonial(SingleObjectMixin, FormView):
 class ProductDetail(View):
 
     def get(self, request, *args, **kwargs):
-        print('____________HERE______________-', request.GET)
         view = SingleProductView.as_view()
         return view(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        print('____________HERE______________-', request.POST)
         view = Testimonial.as_view()
         return view(request, *args, **kwargs)
 

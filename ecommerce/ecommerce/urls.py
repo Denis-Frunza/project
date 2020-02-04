@@ -21,8 +21,9 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url('products/', views.ProductListView.as_view(), name='list'),
+    url('products/', views.ProductListView.as_view(), name='product-list'),
     url('product/<int:pk>', views.ProductDetail.as_view(), name='product-detail'),
-    url('registration/', include('registration.urls')),
+    path('users/', include('registration.urls')),
+    #path('users/', include('django.contrib.auth.urls')),
 
 ]

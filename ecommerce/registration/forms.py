@@ -1,8 +1,27 @@
-from django import forms
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 
-class UserCreationForm(forms.Form):
-    customer_name = forms.CharField(max_length=40)
-    email = forms.EmailField()
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+from .models import CustomUser
+
+
+class CustomUserCreationForm(UserCreationForm):
+
+    class Meta(UserCreationForm):
+        model = CustomUser
+        fields = ('username', 'email', 'age',)#UserCreationForm.Meta.fields + ('age', 'email')
+
+    def __init__(self, *args, **kwargs):
+        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
+        self.fields['password2'].widget.attrs['class'] = 'form-control'
+        self.fields['email'].widget.attrs['class'] = 'form-control'
+        self.fields['age'].widget.attrs['class'] = 'form-control'
+
+
+class CustomUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'email', 'age',)#UserChangeForm.Meta.fields
