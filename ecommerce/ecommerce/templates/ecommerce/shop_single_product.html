@@ -67,20 +67,18 @@
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Home</a>
+            <li class="dropdown"><a class="dropdown-toggle" href="{% url 'login' %}" data-toggle="dropdown">Shops</a>
                 <ul class="dropdown-menu">
-                  <li><a href="index_shop.html">Shop</a></li>
                 </ul>
-              </li>
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Contact</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="contact1.html">Contact 1</a></li>
-                    </ul>
-                  </li>
-              <li> <a href="#">Shop</a></li>
-                  <li><a href="login_register.html">Login / Register</a></li>
-                  <li><a href="404.html">Page 404</a></li>
+              {% if user.is_authenticated %}
+                <li class="dropdown"><a class="dropdown-toggle" href="{% url 'logout' %}" data-toggle="dropdown">Logout</a>
+                <ul class="dropdown-menu">
                 </ul>
+              {% else %}
+                <li class="dropdown"><a class="dropdown-toggle" href="{% url 'login' %}" data-toggle="dropdown">Login</a>
+                <ul class="dropdown-menu">
+                </ul>
+              {% endif %}
               <!--li.dropdown.navbar-cart-->
               <!--    a.dropdown-toggle(href='#', data-toggle='dropdown')-->
               <!--        span.icon-basket-->
@@ -136,17 +134,17 @@
 <section class="module">
           <div class="container">
             <div class="row">
-              <div class="col-sm-6 mb-sm-40"><a class="gallery" href="assets/images/shop/product-7.jpg"><img src="assets/images/shop/product-7.jpg" alt="Single Product Image"/></a>
+              <div class="col-sm-6 mb-sm-40"><a class="gallery" href="assets/images/shop/product-7.jpg"><img src="{% static '/images/shop/product-7.jpg' %}" alt="Single Product Image"/></a>
                 <ul class="product-gallery">
-                  <li><a class="gallery" href="assets/images/shop/product-8.jpg"></a><img src="assets/images/shop/product-8.jpg" alt="Single Product"/></li>
-                  <li><a class="gallery" href="assets/images/shop/product-9.jpg"></a><img src="assets/images/shop/product-9.jpg" alt="Single Product"/></li>
-                  <li><a class="gallery" href="assets/images/shop/product-10.jpg"></a><img src="assets/images/shop/product-10.jpg" alt="Single Product"/></li>
+                  <li><a class="gallery" href="assets/images/shop/product-8.jpg"></a><img src="{% static '/images/shop/product-8.jpg' %}" alt="Single Product"/></li>
+                  <li><a class="gallery" href="assets/images/shop/product-9.jpg"></a><img src="{% static '/images/shop/product-9.jpg' %}" alt="Single Product"/></li>
+                  <li><a class="gallery" href="assets/images/shop/product-10.jpg"></a><img src="{% static '/images/shop/product-10.jpg' %}" alt="Single Product"/></li>
                 </ul>
               </div>
               <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
-                    <h1 class="product-title font-alt">Accessories Pack</h1>
+                    <h1 class="product-title font-alt">{{ product.product_name }}</h1>
                   </div>
                 </div>
                 <div class="row mb-20">
