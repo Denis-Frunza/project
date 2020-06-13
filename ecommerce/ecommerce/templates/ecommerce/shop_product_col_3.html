@@ -65,11 +65,18 @@
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Home</a>
+              <li class="dropdown"><a class="dropdown-toggle" href="{% url 'login' %}" data-toggle="dropdown">Shops</a>
                 <ul class="dropdown-menu">
                 </ul>
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Shop</a>
-              </li>
+              {% if user.is_authenticated %}
+                <li class="dropdown"><a class="dropdown-toggle" href="{% url 'logout' %}" data-toggle="dropdown">Logout</a>
+                <ul class="dropdown-menu">
+                </ul>
+              {% else %}
+                <li class="dropdown"><a class="dropdown-toggle" href="{% url 'login' %}" data-toggle="dropdown">Login</a>
+                <ul class="dropdown-menu">
+                </ul>
+              {% endif %}
               <!--li.dropdown.navbar-cart-->
               <!--    a.dropdown-toggle(href='#', data-toggle='dropdown')-->
               <!--        span.icon-basket-->
