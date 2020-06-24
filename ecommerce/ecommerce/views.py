@@ -2,6 +2,7 @@ from django.views.generic import View, ListView, DetailView, CreateView, FormVie
 from django.views.generic.detail import SingleObjectMixin
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404, redirect
+from django.utils import timezone
 
 from datetime import datetime
 
@@ -87,11 +88,19 @@ class CreateCartItem(CreateView):
     model = models.CartItem
     template_name = 'ecommerce/shop_checkout.html'
 
+
 def add_to_cart(request, pk):
     product = get_object_or_404(models.Product, pk=pk)
-    order_item = models.CartItem.objects.get_or_create(product=product)
-    # cart = models.Cart.objects.filter(user=request.user, ordered=False)
+    order_item, created = models.CartItem.objects.get_or_create(product=product,
+                                                                user=request.user,
+                                                                ordered=False
+                                                                )
+    cart = models.Cart.objects.filter(user=request.user, ordered=False)
+    if cart.exists():
+        order = cart[0]
+        if order.products.filter:
+            pass
+    else:
+        order = models.Cart.objects.create(user=request.user, ordered_at=timezone.now())
+        order.products.add(order_item)
     return redirect('product-detail', pk=pk)
-    # if cart.exists():
-    #     order = cart[0]
-    #     if order.items.filter

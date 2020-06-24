@@ -23,8 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('products/', views.ProductListView.as_view(), name='product-list'),
     path('product/<int:pk>', views.ProductDetail.as_view(), name='product-detail'),
-    path('cartitem/', views.ListCartItem.as_view(), name='list-cartitem'),
-    path('cartitem/create/', views.CreateCartItem.as_view(), name='create-cartitem'),
+    # path('cartitem/', views.ListCartItem.as_view(), name='list-cartitem'),
+    # path('cartitem/create/', views.CreateCartItem.as_view(), name='create-cartitem'),
     path('cartitem/create/<int:pk>/', views.add_to_cart, name='add-to-cart'),
     path('', include('django.contrib.auth.urls')),
     path('', include('registration.urls'))
