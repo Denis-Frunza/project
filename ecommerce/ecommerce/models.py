@@ -1,6 +1,5 @@
-from datetime import datetime
-
 from django.db import models
+from registration.models import CustomUser
 
 
 class Composition(models.Model):
@@ -41,3 +40,18 @@ class Review(models.Model):
 
     def __str__(self):
         return f'{self.customer_name}{self.email}{self.rating}{self.comment}{self.created_at}{self.product_id}'
+
+
+class CartItem(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    ordered = models.BooleanField(default=False)
+    quantity = models.IntegerField(default=1)
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(CustomUser,  on_delete=models.CASCADE)
+    products = models.ManyToManyField(CartItem)
+    ordered = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now=True)
+    ordered_at = models.DateTimeField()

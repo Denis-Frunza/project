@@ -1,14 +1,12 @@
-from django.views.generic import View, ListView, DetailView, FormView
+from django.views.generic import View, ListView, DetailView, CreateView, FormView
 from django.views.generic.detail import SingleObjectMixin
-from django.urls import reverse_lazy,reverse
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404, redirect
 
 from datetime import datetime
 
 from . import models
 from . import forms
-
-# TODO: djangorestframework!!!
-# TODO: nginx + uwsgi
 
 
 class ProductListView(ListView):
@@ -50,7 +48,8 @@ class Testimonial(SingleObjectMixin, FormView):
             comment=form.cleaned_data['comment'],
             created_at=datetime.now(),
             product_id_id=self.kwargs.get('pk')
-        )
+            )
+
         post.save()
         return super().form_valid(form)
 
@@ -73,3 +72,26 @@ class ProductDetail(View):
         view = Testimonial.as_view()
         return view(request, *args, **kwargs)
 
+
+class ListCartItem(ListView):
+    model = models.CartItem
+    template_name = 'ecommerce/shop_checkout.html'
+
+
+# class DetailCartItem(DetailView):
+#     model = models.CartItem
+#     template_name = 'ecommerce/shop_checkout.html'
+#
+#
+class CreateCartItem(CreateView):
+    model = models.CartItem
+    template_name = 'ecommerce/shop_checkout.html'
+
+def add_to_cart(request, pk):
+    product = get_object_or_404(models.Product, pk=pk)
+    order_item = models.CartItem.objects.get_or_create(product=product)
+    # cart = models.Cart.objects.filter(user=request.user, ordered=False)
+    return redirect('product-detail', pk=pk)
+    # if cart.exists():
+    #     order = cart[0]
+    #     if order.items.filter
