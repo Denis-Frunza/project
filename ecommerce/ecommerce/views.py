@@ -3,6 +3,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
+from django.db.models import Prefetch
 
 from datetime import datetime
 
@@ -91,16 +92,20 @@ class CreateCartItem(CreateView):
 
 def add_to_cart(request, pk):
     product = get_object_or_404(models.Product, pk=pk)
-    order_item, created = models.CartItem.objects.get_or_create(product=product,
-                                                                user=request.user,
-                                                                ordered=False
-                                                                )
-    cart = models.Cart.objects.filter(user=request.user, ordered=False)
-    if cart.exists():
-        order = cart[0]
-        if order.products.filter:
-            pass
-    else:
-        order = models.Cart.objects.create(user=request.user, ordered_at=timezone.now())
-        order.products.add(order_item)
-    return redirect('product-detail', pk=pk)
+
+    cart, created = models.Cart.objects.prefetch_related(
+        Prefetch('cart_items', to_attr='cart_items_all')).get_or_create(user=request.user, ordered=False)
+
+    if not created:
+        product_cart_item = (cart_item for cart_item in cart.cart_items_all if cart_item.product == product)
+        product_cart_item = next(product_cart_item, None)
+
+        if product_cart_item:
+            product_cart_item.quantity += 1
+            product_cart_item.save()
+            return redirect('product-detail', pk=product.pk)
+
+    product_cart_item = models.CartItem(cart=cart, product=product)
+    product_cart_item.save()
+
+    return redirect('product-detail', pk=product.pk)

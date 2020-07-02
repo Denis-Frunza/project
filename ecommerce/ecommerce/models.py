@@ -42,16 +42,16 @@ class Review(models.Model):
         return f'{self.customer_name}{self.email}{self.rating}{self.comment}{self.created_at}{self.product_id}'
 
 
-class CartItem(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+class Cart(models.Model):
+    user = models.ForeignKey(CustomUser,  on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now=True)
+    ordered_at = models.DateTimeField(auto_now=True)
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart_items')  # TODO:
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
 
 
-class Cart(models.Model):
-    user = models.ForeignKey(CustomUser,  on_delete=models.CASCADE)
-    products = models.ManyToManyField(CartItem)
-    ordered = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now=True)
-    ordered_at = models.DateTimeField()
