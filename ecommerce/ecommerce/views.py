@@ -1,8 +1,8 @@
-from django.views.generic import View, ListView, DetailView, CreateView, FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View, ListView, DetailView, FormView
 from django.views.generic.detail import SingleObjectMixin
-from django.urls import reverse_lazy, reverse
-from django.shortcuts import get_object_or_404, redirect
-from django.utils import timezone
+from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Prefetch
 
 from datetime import datetime
@@ -75,19 +75,15 @@ class ProductDetail(View):
         return view(request, *args, **kwargs)
 
 
-class ListCartItem(ListView):
-    model = models.CartItem
-    template_name = 'ecommerce/shop_checkout.html'
+class ListCart(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        cart = models.Cart.objects.prefetch_related(
+            Prefetch('cart_items', to_attr='cart_items_all')).filter(user=request.user, ordered=False)
 
-
-# class DetailCartItem(DetailView):
-#     model = models.CartItem
-#     template_name = 'ecommerce/shop_checkout.html'
-#
-#
-class CreateCartItem(CreateView):
-    model = models.CartItem
-    template_name = 'ecommerce/shop_checkout.html'
+        context = {
+            'object': cart
+            }
+        return render(self.request, 'ecommerce/shop_checkout.html', context)
 
 
 def add_to_cart(request, pk):
@@ -101,9 +97,12 @@ def add_to_cart(request, pk):
         product_cart_item = next(product_cart_item, None)
 
         if product_cart_item:
-            product_cart_item.quantity += 1
-            product_cart_item.save()
-            return redirect('product-detail', pk=product.pk)
+            if product_cart_item.quantity < product.quantity_per_unit:
+                product_cart_item.quantity += 1
+                product_cart_item.save()
+                return redirect('product-detail', pk=product.pk)
+            else:
+                raise ValueError
 
     product_cart_item = models.CartItem(cart=cart, product=product)
     product_cart_item.save()
