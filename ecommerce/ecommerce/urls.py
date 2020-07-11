@@ -25,6 +25,7 @@ urlpatterns = [
     path('product/<int:pk>', views.ProductDetail.as_view(), name='product-detail'),
     path('cartitem/', views.ListCart.as_view(), name='list-cartitem'),
     path('cartitem/create/<int:pk>/', views.add_to_cart, name='add-to-cart'),
+    path('remove-item-from-cart/<int:pk>/', views.remove_single_item_from_cart, name='remove-single-item-from-cart'),
     path('', include('django.contrib.auth.urls')),
     path('', include('registration.urls'))
 ]

@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.views.generic import View, ListView, DetailView, FormView
 from django.views.generic.detail import SingleObjectMixin
 from django.urls import reverse_lazy
@@ -87,6 +88,14 @@ class ListCart(LoginRequiredMixin, View):
 
 
 def add_to_cart(request, pk):
+    past_user = request.user
+
+    new_user = login(request.pname, request.passwrod)
+
+    past_user_cart = Car.objects.get(user=past_user, status='FRAFT')
+    past_user_cart.user = new_user
+    past_user_cart.save()
+    #
     product = get_object_or_404(models.Product, pk=pk)
 
     cart, created = models.Cart.objects.prefetch_related(
@@ -107,4 +116,28 @@ def add_to_cart(request, pk):
     product_cart_item = models.CartItem(cart=cart, product=product)
     product_cart_item.save()
 
-    return redirect('product-detail', pk=product.pk)
+    return redirect('list-cartitem')
+
+
+def remove_single_item_from_cart(request, pk):
+    product = get_object_or_404(models.Product, pk=pk)
+    value = int(request.data['value'])
+
+    cart = models.Cart.objects.prefetch_related(
+        Prefetch('cart_items', to_attr='cart_items_all')).get(user=request.user, ordered=False)
+
+    product_cart_item = (cart_item for cart_item in cart.cart_items_all if cart_item.product == product)
+    product_cart_item = next(product_cart_item, None)
+
+    if product_cart_item:
+        if product_cart_item.quantity > 1:
+            product_cart_item.quantity -= 1
+            product_cart_item.save()
+            return redirect('list-cartitem')
+        else:
+            cart.cart_items_all.remove(product)
+        messages.info(request, "This item quantity was updated.")
+    else:
+        messages.info(request, "You do not have an active order")
+
+    return redirect('list-cartitem')
