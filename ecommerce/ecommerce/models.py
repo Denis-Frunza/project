@@ -48,6 +48,12 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     ordered_at = models.DateTimeField(auto_now=True)
 
+    def cart_total_price(self):
+        total = 0
+        for order_item in self.cart.cart_items.all():
+            total += order_item.get_total_price()
+        return total
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart_items')
@@ -56,3 +62,9 @@ class CartItem(models.Model):
 
     def get_total_price(self):
         return self.quantity * self.product.price
+
+    def cart_total_price(self):
+        total = 0
+        for order_item in self.cart.cart_items.all():
+            total += order_item.get_total_price()
+        return total

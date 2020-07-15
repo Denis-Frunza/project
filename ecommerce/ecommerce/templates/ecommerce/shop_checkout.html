@@ -5,8 +5,6 @@
       <div class="main">
         <section class="module">
           <div class="container">
-                      {% for cart_items in object %}
-            {% for cart_item in cart_items.cart_items_all %}
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
                 <h1 class="module-title font-alt">Checkout</h1>
@@ -15,7 +13,6 @@
             <hr class="divider-w pt-20">
             <div class="row">
               <div class="col-sm-12">
-                <form action="{% url 'add-to-cart' cart_item.product.pk %}" method="post">
                 <table class="table table-striped table-border checkout-table">
                   <tbody>
                     <tr>
@@ -26,6 +23,8 @@
                       <th>Total</th>
                       <th>Remove</th>
                     </tr>
+                    {% for cart_items in object %}
+                        {% for cart_item in cart_items.cart_items_all %}
                     <tr>
                       <td class="hidden-xs"><a href="#"><img src="assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
                       <td>
@@ -40,13 +39,14 @@
                           <a href="{% url 'add-to-cart' cart_item.product.id %}"><i class="glyphicon glyphicon-plus"></i></a>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">${{ cart_item.get_total_price }}</h5>
+                        <h5 class="product-title font-alt">${{ cart_item.get_total_price }} </h5>
                       </td>
-                      <td class="pr-remove"><a href="#" title="Remove"><i class="fa fa-times"></i></a></td>
+                      <td class="pr-remove"><a href="{% url 'remove-from-cart' cart_item.product.id %}" title="Remove"><i class="fa fa-times"></i></a></td>
                     </tr>
+                        {% endfor %}
+                    {% endfor %}
                   </tbody>
                 </table>
-               </form>
               </div>
             </div>
             <div class="row">
@@ -73,17 +73,8 @@
                   <h4 class="font-alt">Cart Totals</h4>
                   <table class="table table-striped table-border checkout-table">
                     <tbody>
-                      <tr>
-                        <th>Cart Subtotal :</th>
-                        <td>£40.00</td>
-                      </tr>
-                      <tr>
-                        <th>Shipping Total :</th>
-                        <td>£2.00</td>
-                      </tr>
                       <tr class="shop-Cart-totalprice">
-                        <th>Total :</th>
-                        <td>£42.00</td>
+                        <th>Total :  </th>
                       </tr>
                     </tbody>
                   </table>
@@ -92,8 +83,6 @@
               </div>
             </div>
           </div>
-                      {% endfor %}
-          {% endfor %}
         </section>
         <div class="module-small bg-dark">
           <div class="container">

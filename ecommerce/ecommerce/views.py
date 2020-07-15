@@ -88,13 +88,13 @@ class ListCart(LoginRequiredMixin, View):
 
 
 def add_to_cart(request, pk):
-    past_user = request.user
-
-    new_user = login(request.pname, request.passwrod)
-
-    past_user_cart = Car.objects.get(user=past_user, status='FRAFT')
-    past_user_cart.user = new_user
-    past_user_cart.save()
+    # past_user = request.user
+    #
+    # new_user = login(request.pname, request.passwrod)
+    #
+    # past_user_cart = Car.objects.get(user=past_user, status='FRAFT')
+    # past_user_cart.user = new_user
+    # past_user_cart.save()
     #
     product = get_object_or_404(models.Product, pk=pk)
 
@@ -109,7 +109,7 @@ def add_to_cart(request, pk):
             if product_cart_item.quantity < product.quantity_per_unit:
                 product_cart_item.quantity += 1
                 product_cart_item.save()
-                return redirect('product-detail', pk=product.pk)
+                return redirect('list-cartitem')
             else:
                 raise ValueError
 
@@ -121,7 +121,6 @@ def add_to_cart(request, pk):
 
 def remove_single_item_from_cart(request, pk):
     product = get_object_or_404(models.Product, pk=pk)
-    value = int(request.data['value'])
 
     cart = models.Cart.objects.prefetch_related(
         Prefetch('cart_items', to_attr='cart_items_all')).get(user=request.user, ordered=False)
@@ -135,9 +134,24 @@ def remove_single_item_from_cart(request, pk):
             product_cart_item.save()
             return redirect('list-cartitem')
         else:
-            cart.cart_items_all.remove(product)
+            for cart_item in cart.cart_items_all:
+                if cart_item.product == product:
+                    cart_item.delete()
         messages.info(request, "This item quantity was updated.")
     else:
         messages.info(request, "You do not have an active order")
+
+    return redirect('list-cartitem')
+
+
+def remove_from_cart(request, pk):
+    product = get_object_or_404(models.Product, pk=pk)
+
+    cart = models.Cart.objects.prefetch_related(
+        Prefetch('cart_items', to_attr='cart_items_all')).get(user=request.user, ordered=False)
+
+    for cart_item in cart.cart_items_all:
+        if cart_item.product == product:
+            cart_item.delete()
 
     return redirect('list-cartitem')
